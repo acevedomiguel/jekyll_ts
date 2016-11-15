@@ -54,13 +54,14 @@ module Jekyll
 			@tsc = tsc
 		end
 
-		def write(dest)
+    def write(dest)
 			# js name
 			ts_ext = /\.ts$/i
 			js_name = @name.gsub(ts_ext, ".js")
+      js_dir = @dir.gsub(/ts$/i, "js")
 
 			# js full path
-			js_path = File.join(dest, @jsdir)
+			js_path = File.join(dest, js_dir)
 			js = File.join(js_path, js_name)
 
 			# make sure dir exists
@@ -68,6 +69,7 @@ module Jekyll
 			puts js
 			# execute shell command
 			begin
+        puts "#{@tsc} -t ES5 --out #{js} #{@tspath}"
 				command = "#{@tsc} -t ES5 --out #{js} #{@tspath}"
 
 				`#{command}`
