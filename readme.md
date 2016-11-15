@@ -11,10 +11,12 @@ Jekyll plugin to compile Typescript
 
 ## Update
 
-Plugin will maintain the same route of the .js file to the .ts file
+Plugin will maintain the same route of the .js file respect to the .ts file
 
 ```
 _source/my_folder/ts/file.ts
+
 # will be saved as
+
 _site/my_folder/js/file.js
 ```
