@@ -8,3 +8,13 @@ Jekyll plugin to compile Typescript
     * tsc:     path of typescript compiler
     * js_dest: output of js files after compilation
 3. Javascript files will write to js_dest location on build
+
+## Update
+
+Plugin will maintain the same route of the .js file to the .ts file
+
+```
+_source/my_folder/ts/file.ts
+# will be saved as
+_site/my_folder/js/file.js
+```
