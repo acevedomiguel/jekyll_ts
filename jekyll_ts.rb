@@ -11,15 +11,11 @@ module Jekyll
 
 	class TsGenerator < Generator
 		safe true
-		priority :low
 
 		def generate(site)
 			# location of typescript compiler
-			# defaults to tsc assuming in system env path
+			# defaults to tsc assuming in system env path'
 			tsc = site.config["tsc"] || "tsc"
-
-			# js destination
-			js_dest = site.config["js_dest"] || "/"
 
 			ts_files = Array.new;
 
@@ -31,8 +27,7 @@ module Jekyll
 				ts_name = File.basename(sf.path)
 
 				# add ts file
-				ts_files << TsFile.new(site, site.source, ts_dir, ts_name, js_dest, tsc)
-				puts sf.path
+				ts_files << TsFile.new(site, site.source, ts_dir, ts_name, tsc)
 				# return true so this file gets removed from static_files
 				# we'll replace it with our own tsfile that implements
 				# it's own write
@@ -46,15 +41,14 @@ module Jekyll
 
 
 	class TsFile < StaticFile
-		def initialize(site, base, dir, name, jsroot, tsc)
+		def initialize(site, base, dir, name, tsc)
 			super(site, base, dir, name, nil)
 
 			@tspath = File.join(base, dir, name)
-			@jsdir = jsroot
 			@tsc = tsc
 		end
 
-    def write(dest)
+		def write(dest)
 			# js name
 			ts_ext = /\.ts$/i
 			js_name = @name.gsub(ts_ext, ".js")
@@ -66,10 +60,8 @@ module Jekyll
 
 			# make sure dir exists
 			FileUtils.mkdir_p(js_path)
-			puts js
 			# execute shell command
 			begin
-        puts "#{@tsc} -t ES5 --out #{js} #{@tspath}"
 				command = "#{@tsc} -t ES5 --out #{js} #{@tspath}"
 
 				`#{command}`
